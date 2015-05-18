@@ -6,11 +6,11 @@ use Zf2Datagrid\Column;
 use Exception;
 
 /**
- * Class ColumnAlreadyAdded
+ * Class ColumnAlreadyAddedException
  *
  * @package Zf2Datagrid\Exception\Datagrid
  */
-class ColumnAlreadyAdded extends Exception
+class ColumnAlreadyAddedException extends Exception
 {
     /**
      * @param Column $column

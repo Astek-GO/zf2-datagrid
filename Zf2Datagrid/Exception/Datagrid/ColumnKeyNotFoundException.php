@@ -5,11 +5,11 @@ namespace Zf2Datagrid\Exception\Datagrid;
 use Exception;
 
 /**
- * Class ColumnKeyNotFound
+ * Class ColumnKeyNotFoundException
  *
  * @package Zf2Datagrid\Exception\Datagrid
  */
-class ColumnKeyNotFound extends Exception
+class ColumnKeyNotFoundException extends Exception
 {
     /**
      * @param string $key

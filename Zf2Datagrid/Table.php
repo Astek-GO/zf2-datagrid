@@ -2,8 +2,8 @@
 
 namespace Zf2Datagrid;
 
-use Zf2Datagrid\Exception\Datagrid\ColumnAlreadyAdded;
-use Zf2Datagrid\Exception\Datagrid\ColumnKeyNotFound;
+use Zf2Datagrid\Exception\Datagrid\ColumnAlreadyAddedException;
+use Zf2Datagrid\Exception\Datagrid\ColumnKeyNotFoundException;
 use Zf2Datagrid\Exception\Table\NoRendererHasBeenSetException;
 use Zend\Http\Request;
 use Zend\Mvc\I18n\Translator;
@@ -91,7 +91,7 @@ class Table
     {
         try {
             $this->getColumnByKey($column->getKey());
-        } catch (ColumnKeyNotFound $cknf) {
+        } catch (ColumnKeyNotFoundException $cknf) {
             if ($column instanceof ServiceLocatorAwareInterface) {
                 $column->setServiceLocator($this->serviceLocator);
             }
@@ -101,7 +101,7 @@ class Table
             return $this;
         }
 
-        throw new ColumnAlreadyAdded($column);
+        throw new ColumnAlreadyAddedException($column);
     }
 
     /**
@@ -141,7 +141,7 @@ class Table
     public function getColumnByKey($key)
     {
         if (! isset($this->columns[$key])) {
-            throw new ColumnKeyNotFound($key);
+            throw new ColumnKeyNotFoundException($key);
         }
 
         return $this->columns[$key];
