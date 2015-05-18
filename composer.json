@@ -1,4 +1,7 @@
 {
+    "name" : "astek-go/zf2-datagrid",
+    "description" : "Zf2Datagrid - A nice helper to build HTML table",
+    "homepage" : "https://github.com/Astek-GO/zf2-datagrid",
     "autoload": {
         "psr-4": {
             "Zf2Datagrid\\": "Zf2Datagrid/"
