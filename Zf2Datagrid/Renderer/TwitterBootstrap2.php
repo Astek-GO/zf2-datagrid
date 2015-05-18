@@ -168,7 +168,7 @@ class TwitterBootstrap2 extends Renderer
      */
     public function getPageCount()
     {
-        $container = '<div class="pagination pagination-left pull-left"><ul><li><a>%s</a></li></ul></div>';
+        $container = '<div class="pagination pagination-left pull-left"><ul><li><span class="btn btn-default disabled">%s</span></li></ul></div>';
 
         return sprintf(
             $container,
