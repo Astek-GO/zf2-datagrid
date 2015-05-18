@@ -1,0 +1,15 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Zf2Datagrid\\": "Zf2Datagrid/"
+        }
+    },
+    "require": {
+        "doctrine/orm" : "2.4.*"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.2",
+        "mockery/mockery": "0.9.*",
+        "phpspec/prophecy": "~1.4"
+    }
+}

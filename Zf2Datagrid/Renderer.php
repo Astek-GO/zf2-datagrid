@@ -1,0 +1,295 @@
+<?php
+
+namespace Zf2Datagrid;
+
+use Closure;
+
+/**
+ * Class Renderer
+ *
+ * @package Zf2Datagrid
+ */
+abstract class Renderer implements RendererInterface
+{
+    /**
+     * @var int
+     */
+    protected $totalCount = 0;
+
+    /**
+     * @var int[]
+     */
+    protected $pageSizes = [];
+
+    /**
+     * @var int
+     */
+    protected $pageSize = 0;
+
+    /**
+     * @var Column[]
+     */
+    protected $columns = [];
+
+    /**
+     * @var array
+     */
+    protected $data = [];
+
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var int
+     */
+    protected $page;
+
+    /**
+     * @var string
+     */
+    protected $emptyMessage = 'No record found';
+
+    /**
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param $emptyMessage
+     *
+     * @return $this
+     */
+    public function setEmptyMessage($emptyMessage)
+    {
+        $this->emptyMessage = $emptyMessage;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmptyMessage()
+    {
+        return $this->emptyMessage;
+    }
+
+    /**
+     * @param int $totalCount
+     *
+     * @return $this
+     */
+    public function setTotalCount($totalCount)
+    {
+        $this->totalCount = $totalCount;
+
+        return $this;
+    }
+
+    /**
+     * @param int[] $pageSizes
+     *
+     * @return $this
+     */
+    public function setPageSizes(array $pageSizes = [])
+    {
+        $this->pageSizes = [];
+
+        foreach ($pageSizes as $pageSize) {
+            $this->pageSizes[] = (int) $pageSize;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param int $pageSize
+     *
+     * @return $this
+     */
+    public function setPageSize($pageSize)
+    {
+        $this->pageSize = (int) $pageSize;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPageSize()
+    {
+        return $this->pageSize;
+    }
+
+    /**
+     * @param array $columns
+     *
+     * @return $this
+     */
+    public function setColumns(array $columns = [])
+    {
+        $this->columns = $columns;
+
+        return $this;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return $this
+     */
+    public function setData(array $data = [])
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * @param int $resultCount
+     *
+     * @return $this
+     */
+    public function setResultCount($resultCount)
+    {
+        $this->totalCount = (int) $resultCount;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getResultCount()
+    {
+        return $this->totalCount;
+    }
+
+    /**
+     * @param int $page
+     *
+     * @return $this
+     */
+    public function setCurrentPage($page)
+    {
+        $this->page = (int) $page;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentPage()
+    {
+        return $this->page;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLastPageNumber()
+    {
+        return ceil($this->getResultCount() / $this->getPageSize());
+    }
+
+    /**
+     * @param Column $column
+     * @param mixed  $row
+     *
+     * @return mixed|string
+     */
+    protected function getValueForRow(Column $column, $row)
+    {
+        if ($column instanceof Column\Property) {
+            // This one only gets the property
+            $value = $row->{'get' . ucfirst($column->getProperty())}();
+        } elseif ($column instanceof Column\Select) {
+            // And this one is used to build the query
+            $value = $row->{'get' . ucfirst($column->getKey())}();
+        } else {
+            $value = $column->getKey();
+        }
+
+        foreach ($column->getDecorators() as $decorator) {
+            if ($decorator instanceof RowAwareInterface) {
+                $decorator->setRow($row);
+            }
+
+            if ($decorator instanceof Decorator) {
+                $value = $decorator->render($value);
+            } elseif ($decorator instanceof Closure) {
+                $value = $decorator($value);
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param array $params
+     * @param bool  $merge
+     *
+     * @return string
+     */
+    protected function getUrlWithThisParams(array $params = [], $merge = true)
+    {
+        $baseUrl       = explode('?', "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]")[0];
+        $getParameters = [];
+        $parameters    = $merge ? array_merge($_GET, $params) : $params;
+
+        foreach ($parameters as $paramName => $paramValue) {
+            $getParameters[] = $paramName . '=' . $paramValue;
+        }
+
+        return $baseUrl . '?' . implode('&', $getParameters);
+    }
+
+    /**
+     * @return mixed
+     */
+    public abstract function output();
+
+    /**
+     * @return mixed
+     */
+    public abstract function getBody();
+
+    /**
+     * @return mixed
+     */
+    public abstract function getHeader();
+
+    /**
+     * @return mixed
+     */
+    public abstract function getPageCount();
+
+    /**
+     * @return mixed
+     */
+    public abstract function getPageLinks();
+
+    /**
+     * @return mixed
+     */
+    public abstract function getPageSizes();
+}
