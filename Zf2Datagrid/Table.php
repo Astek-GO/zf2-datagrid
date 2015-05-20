@@ -2,14 +2,14 @@
 
 namespace Zf2Datagrid;
 
-use Zf2Datagrid\Exception\Datagrid\ColumnAlreadyAddedException;
-use Zf2Datagrid\Exception\Datagrid\ColumnKeyNotFoundException;
-use Zf2Datagrid\Exception\Table\NoRendererHasBeenSetException;
 use Zend\Http\Request;
 use Zend\Mvc\I18n\Translator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Session\Container;
+use Zf2Datagrid\Exception\Datagrid\ColumnAlreadyAddedException;
+use Zf2Datagrid\Exception\Datagrid\ColumnKeyNotFoundException;
+use Zf2Datagrid\Exception\Table\NoRendererHasBeenSetException;
 
 /**
  * Class Table
@@ -82,10 +82,12 @@ class Table
     }
 
     /**
+     * Ajoute une colonne à la table
+     *
      * @param Column $column
      *
      * @return $this
-     * @throws ColumnAlreadyAdded
+     * @throws ColumnAlreadyAddedException
      */
     public function add(Column $column)
     {
@@ -105,6 +107,8 @@ class Table
     }
 
     /**
+     * Renvoi les colonnes
+     *
      * @return Column[]
      */
     public function getColumns()
@@ -113,14 +117,8 @@ class Table
     }
 
     /**
-     * @return int
-     */
-    public function getPaginatorSize()
-    {
-        return $this->paginatorSize;
-    }
-
-    /**
+     * Indique le nombre d’items max du tableau
+     *
      * @param $pageSize
      *
      * @return $this
@@ -133,10 +131,22 @@ class Table
     }
 
     /**
+     * Renvoi le nombre d’items max du tableau (déf: 20)
+     *
+     * @return int
+     */
+    public function getPaginatorSize()
+    {
+        return $this->paginatorSize;
+    }
+
+    /**
+     * Renvoi une colonne par sa clé
+     *
      * @param $key
      *
      * @return Column
-     * @throws ColumnKeyNotFound
+     * @throws ColumnKeyNotFoundException
      */
     public function getColumnByKey($key)
     {
@@ -148,6 +158,8 @@ class Table
     }
 
     /**
+     * Indique le datasource à utiliser
+     *
      * @param Datasource $datasource
      *
      * @return $this
@@ -160,6 +172,8 @@ class Table
     }
 
     /**
+     * Indique le renderer à utiliser
+     *
      * @param RendererInterface $renderer
      *
      * @return $this
@@ -172,104 +186,8 @@ class Table
     }
 
     /**
-     * @param array $pageSizes
+     * Renvoi le renderer utilisé
      *
-     * @return $this
-     */
-    public function setPaginatorSizes(array $pageSizes = [])
-    {
-        $this->pageSizes = $pageSizes;
-
-        return $this;
-    }
-
-    /**
-     * @return \int[]
-     */
-    public function getPageSizes()
-    {
-        return $this->pageSizes;
-    }
-
-    /**
-     * @param $name
-     *
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        if (null == $this->name) {
-            return 'zf2-datagrid';
-        }
-
-        return $this->name;
-    }
-
-    /**
-     * @param $emptyMessage
-     *
-     * @return $this
-     */
-    public function setEmptyMessage($emptyMessage)
-    {
-        $this->emptyMessage = $emptyMessage;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmptyMessage()
-    {
-        return $this->getTranslation($this->emptyMessage);
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isStoreStateInSession()
-    {
-        return $this->storeStateInSession;
-    }
-
-    /**
-     * @param boolean $storeStateInSession
-     *
-     * @return $this
-     */
-    public function setStoreStateInSession($storeStateInSession)
-    {
-        $this->storeStateInSession = (bool) $storeStateInSession;
-
-        return $this;
-    }
-
-    /**
-     * @param $value
-     *
-     * @return string
-     */
-    protected function getTranslation($value)
-    {
-        if (null === $this->translator) {
-            $this->translator = $this->serviceLocator->get('translator');
-        }
-
-        return $this->translator->translate($value);
-    }
-
-    /**
      * @return Renderer
      * @throws NoRendererHasBeenSetException
      */
@@ -283,6 +201,108 @@ class Table
     }
 
     /**
+     * Indique les possibilité de nombre d’items max du tableau
+     *
+     * @param int[] $pageSizes
+     *
+     * @return $this
+     */
+    public function setPaginatorSizes(array $pageSizes = [])
+    {
+        $this->pageSizes = $pageSizes;
+
+        return $this;
+    }
+
+    /**
+     * Renvoi les possibilité de nombre d’items max du tableau
+     *
+     * @return int[]
+     */
+    public function getPageSizes()
+    {
+        return $this->pageSizes;
+    }
+
+    /**
+     * Indique le nom de la table (sous la forme d’un slug)
+     *
+     * @param $name
+     *
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Renvoi le nom de la table
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        if (null == $this->name) {
+            return 'zf2-datagrid';
+        }
+
+        return $this->name;
+    }
+
+    /**
+     * Le texte à afficher quand le tableau est vide (ou sa clé de traduction)
+     *
+     * @param $emptyMessage
+     *
+     * @return $this
+     */
+    public function setEmptyMessage($emptyMessage)
+    {
+        $this->emptyMessage = $emptyMessage;
+
+        return $this;
+    }
+
+    /**
+     * Renvoi le texte (traduit) à afficher quand le tableau est vide
+     *
+     * @return string
+     */
+    public function getEmptyMessage()
+    {
+        return $this->getTranslation($this->emptyMessage);
+    }
+
+    /**
+     * Indique si on doit stocker l’état de la pagination en session
+     *
+     * @param boolean $storeStateInSession
+     *
+     * @return $this
+     */
+    public function setStoreStateInSession($storeStateInSession)
+    {
+        $this->storeStateInSession = (bool) $storeStateInSession;
+
+        return $this;
+    }
+
+    /**
+     * Renvoi true si l’état de la pagination est stockée en session, false sinon
+     *
+     * @return boolean
+     */
+    public function isStoreStateInSession()
+    {
+        return $this->storeStateInSession;
+    }
+
+    /**
+     * Appelle le datasource puis passe les données au renderer et renvoi le résultat
+     *
      * @return mixed
      * @throws NoRendererHasBeenSetException
      */
@@ -317,13 +337,31 @@ class Table
     }
 
     /**
+     * Renvoi un texte traduit
+     *
+     * @param $value
+     *
+     * @return string
+     */
+    protected function getTranslation($value)
+    {
+        if (null === $this->translator) {
+            $this->translator = $this->serviceLocator->get('translator');
+        }
+
+        return $this->translator->translate($value);
+    }
+
+    /**
+     * Renvoi un paramètre depuis la Request ou la session
+     *
      * @param      $name
      * @param null $default
      * @param null $sessionContainerName
      *
      * @return mixed|null|\Zend\Stdlib\ParametersInterface
      */
-    private function getParameter($name, $default = null, $sessionContainerName = null)
+    protected function getParameter($name, $default = null, $sessionContainerName = null)
     {
         /** @var Request $request */
         $request      = $this->serviceLocator->get('Request');
@@ -347,13 +385,15 @@ class Table
     }
 
     /**
+     * Set un paramètre en session si stockage en session actif
+     *
      * @param      $name
      * @param      $value
      * @param null $sessionContainerName
      *
      * @return $this
      */
-    public function setParameter($name, $value, $sessionContainerName = null)
+    protected function setParameter($name, $value, $sessionContainerName = null)
     {
         if ($this->isStoreStateInSession() && null != $sessionContainerName) {
             $container = new Container($sessionContainerName);
@@ -365,25 +405,31 @@ class Table
     }
 
     /**
+     * Renvoi le nom du Container de session pour le sort
+     *
      * @return string
      */
-    private function getSortSessionContainerName()
+    protected function getSortSessionContainerName()
     {
         return str_replace('-', '_', $this->getName() . '-sort');
     }
 
     /**
+     * Renvoi le nom du Container de session pour la pagination
+     *
      * @return string
      */
-    private function getPageSessionContainerName()
+    protected function getPageSessionContainerName()
     {
         return str_replace('-', '_', $this->getName() . '-pagination');
     }
 
     /**
+     * Renvoi les conditions du sort par rapport à la Request/session/paramètre par défaut et mets à jour la session si stockage actif
+     *
      * @return array
      */
-    private function getSortConditionsFromRequest()
+    protected function getSortConditionsFromRequest()
     {
         $requestSortBy  = $this->getParameter('sortBy', null, $this->getSortSessionContainerName());
         $requestSortDir = $this->getParameter('sortDir', null, $this->getSortSessionContainerName());
@@ -415,9 +461,11 @@ class Table
     }
 
     /**
+     * Renvoi les conditions de la pagination par rapport à la Request/session/paramètre par défaut et mets à jour la session si stockage actif
+     *
      * @return array
      */
-    private function getPaginationFromRequest()
+    protected function getPaginationFromRequest()
     {
         $requestPage     = $this->getParameter('page', null, $this->getPageSessionContainerName());
         $requestPageSize = $this->getParameter('parPage', null, $this->getPageSessionContainerName());
@@ -439,9 +487,11 @@ class Table
     }
 
     /**
+     * Set le ServiceLocator à tous les décorateurs de colonnes si besoin
+     *
      * @return $this
      */
-    private function setServiceLocatorToDecorators()
+    protected function setServiceLocatorToDecorators()
     {
         foreach ($this->getColumns() as $column) {
             foreach ($column->getDecorators() as $decorator) {
@@ -455,11 +505,13 @@ class Table
     }
 
     /**
+     * Set l'odre actuel de chaque colonnes si elle sont "sortable"
+     *
      * @param array $sortConditions
      *
      * @return $this
      */
-    private function setCurrentOrderToColumns(array $sortConditions = [])
+    protected function setCurrentOrderToColumns(array $sortConditions = [])
     {
         foreach ($this->getColumns() as $column) {
             if ($column->isSortable()) {
