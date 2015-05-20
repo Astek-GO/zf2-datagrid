@@ -39,7 +39,7 @@ class DoctrineObjectDatasource extends Datasource
      */
     public function getData()
     {
-        return $this->queryBuilder;
+        return clone $this->queryBuilder;
     }
 
     /**
