@@ -2,6 +2,11 @@
 
 namespace Zf2Datagrid\Renderer\Decorator;
 
+use Zend\Form\ElementInterface;
+use Zend\Form\Form as ZfForm;
+use Zend\Form\View\Helper\Form as ZfFormRenderer;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Renderer\PhpRenderer;
 use Zf2Datagrid\Renderer;
 use Zf2Datagrid\RendererInterface;
 
@@ -17,10 +22,26 @@ class Form implements RendererInterface
      */
     protected $attributes;
 
-    public function __construct(Renderer $renderer, array $attributes = [])
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
+
+    /**
+     * @var ZfForm
+     */
+    protected $form;
+
+    /**
+     * @var ElementInterface[]
+     */
+    protected $formElements = [];
+
+    public function __construct(Renderer $renderer, ServiceLocatorInterface $serviceLocator, array $attributes = [])
     {
-        $this->renderer   = $renderer;
-        $this->attributes = $attributes;
+        $this->renderer       = $renderer;
+        $this->attributes     = $attributes;
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -38,7 +59,7 @@ class Form implements RendererInterface
      */
     public function getName()
     {
-        return $this->getName();
+        return $this->renderer->getName();
     }
 
     /**
@@ -56,7 +77,7 @@ class Form implements RendererInterface
      */
     public function getEmptyMessage()
     {
-        return $this->getEmptyMessage();
+        return $this->renderer->getEmptyMessage();
     }
 
     /**
@@ -94,7 +115,7 @@ class Form implements RendererInterface
      */
     public function getPageSize()
     {
-        return $this->getPageSize();
+        return $this->renderer->getPageSize();
     }
 
     /**
@@ -132,7 +153,7 @@ class Form implements RendererInterface
      */
     public function getResultCount()
     {
-        return $this->getResultCount();
+        return $this->renderer->getResultCount();
     }
 
     /**
@@ -150,7 +171,7 @@ class Form implements RendererInterface
      */
     public function getCurrentPage()
     {
-        return $this->getCurrentPage();
+        return $this->renderer->getCurrentPage();
     }
 
     /**
@@ -158,7 +179,33 @@ class Form implements RendererInterface
      */
     public function getLastPageNumber()
     {
-        return $this->getLastPageNumber();
+        return $this->renderer->getLastPageNumber();
+    }
+
+    /**
+     * @param array|ElementInterface $element
+     *
+     * @return $this
+     */
+    public function addElement($element)
+    {
+        $this->getForm()->add($element);
+
+        return $this;
+    }
+
+    protected function getForm()
+    {
+        if (null === $this->form) {
+            $this->form = new ZfForm(
+                null,
+                $this->attributes
+            );
+
+            $this->form->setAttributes($this->attributes);
+        }
+
+        return $this->form;
     }
 
     /**
@@ -166,34 +213,36 @@ class Form implements RendererInterface
      */
     public function output()
     {
+        $form = $this->getForm();
+
+        $form->prepare();
+        $form->setName(sprintf('form-%s', $this->getName()));
+
         // TODO : Need refactoring
-        // TODO : add control (control, prepend / append / les deux (masque))
-        $template          = '
-            <form %s>
+        $template = '
+            %s
                 <div class="form-%s-controls">
                     %s
                 </div>
                 <div class="form-%s-content">
                     %s
                 </div>
-            </form>
+            %s
         ';
-        $templateAttribute = '%s=%s';
-        $attributes        = [];
 
-        foreach ($this->attributes as $name => $value) {
-            $attributes[] = vsprintf($templateAttribute, [
-                $name,
-                $value,
-            ]);
+        $formElements = '';
+
+        foreach ($form->getElements() as $element) {
+            $formElements .= $this->getFormViewHelper()->formRow($element);
         }
 
         return vsprintf($template, [
-            implode(' ', $attributes),
-            $this->renderer->getName(),
-            '<input type="submit" class="btn btn-primary" value="Send">',
-            $this->renderer->getName(),
+            $this->getFormRenderer()->openTag($form),
+            $this->getName(),
+            $formElements,
+            $this->getName(),
             $this->renderer->output(),
+            $this->getFormRenderer()->closeTag($form)
         ]);
     }
 
@@ -202,7 +251,7 @@ class Form implements RendererInterface
      */
     public function getBody()
     {
-        return $this->getBody();
+        return $this->renderer->getBody();
     }
 
     /**
@@ -210,7 +259,7 @@ class Form implements RendererInterface
      */
     public function getHeader()
     {
-        return $this->getHeader();
+        return $this->renderer->getHeader();
     }
 
     /**
@@ -218,7 +267,7 @@ class Form implements RendererInterface
      */
     public function getPageCount()
     {
-        return $this->getPageCount();
+        return $this->renderer->getPageCount();
     }
 
     /**
@@ -226,7 +275,7 @@ class Form implements RendererInterface
      */
     public function getPageLinks()
     {
-        return $this->getPageLinks();
+        return $this->renderer->getPageLinks();
     }
 
     /**
@@ -234,6 +283,30 @@ class Form implements RendererInterface
      */
     public function getPageSizes()
     {
-        return $this->getPageSizes();
+        return $this->renderer->getPageSizes();
+    }
+
+    /**
+     * @return ServiceLocatorInterface
+     */
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    /**
+     * @return ZfFormRenderer
+     */
+    protected function getFormRenderer()
+    {
+        return $this->getServiceLocator()->get(ZfFormRenderer::class);
+    }
+
+    /**
+     * @return PhpRenderer
+     */
+    protected function getFormViewHelper()
+    {
+        return $this->getServiceLocator()->get(PhpRenderer::class);
     }
 }
