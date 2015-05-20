@@ -3,13 +3,13 @@
 namespace Zf2Datagrid;
 
 use Zend\Http\Request;
-use Zend\Mvc\I18n\Translator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Session\Container;
 use Zf2Datagrid\Exception\Datagrid\ColumnAlreadyAddedException;
 use Zf2Datagrid\Exception\Datagrid\ColumnKeyNotFoundException;
 use Zf2Datagrid\Exception\Table\NoRendererHasBeenSetException;
+use Zf2Datagrid\Translator as GetTranslator;
 
 /**
  * Class Table
@@ -18,6 +18,8 @@ use Zf2Datagrid\Exception\Table\NoRendererHasBeenSetException;
  */
 class Table
 {
+    use GetTranslator;
+
     /**
      * @var Column[]
      */
@@ -42,11 +44,6 @@ class Table
      * @var ServiceLocatorInterface
      */
     protected $serviceLocator;
-
-    /**
-     * @var Translator
-     */
-    protected $translator;
 
     /**
      * @var RendererInterface
@@ -95,7 +92,7 @@ class Table
             $this->getColumnByKey($column->getKey());
         } catch (ColumnKeyNotFoundException $cknf) {
             if ($column instanceof ServiceLocatorAwareInterface) {
-                $column->setServiceLocator($this->serviceLocator);
+                $column->setServiceLocator($this->getServiceLocator());
             }
 
             $this->columns[$column->getKey()] = $column;
@@ -337,6 +334,16 @@ class Table
     }
 
     /**
+     * Renvoi le ServiceLocator
+     *
+     * @return ServiceLocatorInterface
+     */
+    protected function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    /**
      * Renvoi un texte traduit
      *
      * @param $value
@@ -345,11 +352,7 @@ class Table
      */
     protected function getTranslation($value)
     {
-        if (null === $this->translator) {
-            $this->translator = $this->serviceLocator->get('translator');
-        }
-
-        return $this->translator->translate($value);
+        return $this->getTranslator()->translate($value);
     }
 
     /**
@@ -364,7 +367,7 @@ class Table
     protected function getParameter($name, $default = null, $sessionContainerName = null)
     {
         /** @var Request $request */
-        $request      = $this->serviceLocator->get('Request');
+        $request      = $this->getServiceLocator()->get('Request');
         $requestParam = $request->getQuery($name);
 
         if ($this->isStoreStateInSession() && null != $sessionContainerName) {
@@ -496,7 +499,7 @@ class Table
         foreach ($this->getColumns() as $column) {
             foreach ($column->getDecorators() as $decorator) {
                 if ($decorator instanceof ServiceLocatorAwareInterface) {
-                    $decorator->setServiceLocator($this->serviceLocator);
+                    $decorator->setServiceLocator($this->getServiceLocator());
                 }
             }
         }

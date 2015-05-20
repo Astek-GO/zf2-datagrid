@@ -3,9 +3,8 @@
 namespace Zf2Datagrid;
 
 use Closure;
-use Zf2Datagrid\Exception\Decorator\InvalidArgumentException;
-use Zend\Mvc\I18n\Translator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zf2Datagrid\Exception\Decorator\InvalidArgumentException;
 
 /**
  * Class Column
@@ -14,12 +13,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  */
 class Column implements ServiceLocatorAwareInterface
 {
-    use ServiceLocatorAware;
-
-    /**
-     * @var Translator
-     */
-    protected $translator;
+    use ServiceLocatorAware, Translator;
 
     /**
      * @var string
@@ -76,11 +70,7 @@ class Column implements ServiceLocatorAwareInterface
      */
     protected function getTranslation($value)
     {
-        if (null === $this->translator) {
-            $this->translator = $this->getServiceLocator()->get('translator');
-        }
-
-        return $this->translator->translate($value);
+        return $this->getTranslator()->translate($value);
     }
 
     /**
