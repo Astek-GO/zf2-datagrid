@@ -1,8 +1,9 @@
 <?php
 
-namespace Zf2Datagrid;
+namespace Zf2Datagrid\Datasource;
 
 use Zf2Datagrid\Column\Select;
+use Zf2Datagrid\Datasource;
 use Zf2Datagrid\Exception\Datasource\InvalidQueryBuilderArgumentException;
 use Doctrine\ORM\Query\Expr\OrderBy;
 use Doctrine\ORM\QueryBuilder;
