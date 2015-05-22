@@ -46,6 +46,18 @@ class Numeric implements Decorator
     }
 
     /**
+     * @param $append
+     *
+     * @return $this
+     */
+    public function setAppend($append)
+    {
+        $this->append = $append;
+
+        return $this;
+    }
+
+    /**
      * @param $data
      *
      * @return float
