@@ -295,6 +295,14 @@ class Form implements RendererInterface
     }
 
     /**
+     * @return Renderer
+     */
+    public function getRenderer()
+    {
+        return $this->renderer;
+    }
+
+    /**
      * @return ZfFormRenderer
      */
     protected function getFormRenderer()
