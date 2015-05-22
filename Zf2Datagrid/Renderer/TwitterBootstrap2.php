@@ -31,21 +31,25 @@ class TwitterBootstrap2 extends Renderer
      */
     public function output()
     {
-        $template = '<div id="%s"><div class="row%s" id="%s-table-container">%s</div><div class="row%s" id="%s-table-pagination">%s</div></div>';
-        $output   = vsprintf($template, [
+        $template = '<div id="%s"><div class="row%s" id="%s-table-container">%s</div>';
+        $params   = [
             $this->getName(),
             $this->isFluid ? '-fluid' : '',
             $this->getName(),
             $this->getTable(),
-            $this->isFluid ? '-fluid' : '',
-            $this->getName(),
-            $this->getPageCount()
-            . $this->getPageSizes()
-            . $this->getPageLinks(),
-            ''
-        ]);
+        ];
 
-        return $output;
+        if ($this->hasPagination()) {
+            $template .= '<div class="row%s" id="%s-table-pagination">%s</div>';
+
+            $params[] = $this->isFluid ? '-fluid' : '';
+            $params[] = $this->getName();
+            $params[] = $this->getPageCount() . $this->getPageSizes() . $this->getPageLinks();
+        }
+
+        $template .= '</div>';
+
+        return vsprintf($template, $params);
     }
 
     /**

@@ -52,6 +52,11 @@ abstract class Renderer implements RendererInterface
     protected $emptyMessage = 'No record found';
 
     /**
+     * @var bool
+     */
+    protected $hasPagination = true;
+
+    /**
      * @param string $name
      *
      * @return $this
@@ -209,6 +214,22 @@ abstract class Renderer implements RendererInterface
     public function getLastPageNumber()
     {
         return ceil($this->getResultCount() / $this->getPageSize());
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasPagination()
+    {
+        return $this->hasPagination;
+    }
+
+    /**
+     * @param boolean $hasPagination
+     */
+    public function setHasPagination($hasPagination)
+    {
+        $this->hasPagination = $hasPagination;
     }
 
     /**
