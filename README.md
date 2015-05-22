@@ -34,5 +34,5 @@ Pour apprendre à utiliser cette librairie vous pouvez consulter la [documentati
 * Documentation / Exemples WIP
 * PhpArray > pagination/order
 * Gérer les attributs HTML pour les Column (th/td)
-* D'autres datasource out of the box (TwitterBootstrap3, Foundation...)
+* D'autres renderer out of the box (TwitterBootstrap3, Foundation...)
 * D'autres datasource out of the box (Zend\Db ? autres...)
