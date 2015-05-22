@@ -50,7 +50,7 @@ class DoctrineObjectDatasource extends Datasource
         $queryBuilder = $this->getData();
         $aliases = [];
 
-        $queryBuilder->resetDQLParts(['select', 'orderBy']);
+        $queryBuilder->resetDQLParts(['select', 'orderBy', 'having']);
 
         foreach ($this->getColumns() as $column) {
             if ($column instanceof Select) {
