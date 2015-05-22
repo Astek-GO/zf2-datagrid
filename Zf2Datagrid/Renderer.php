@@ -226,10 +226,14 @@ abstract class Renderer implements RendererInterface
 
     /**
      * @param boolean $hasPagination
+     *
+     * @return $this
      */
     public function setHasPagination($hasPagination)
     {
         $this->hasPagination = $hasPagination;
+
+        return $this;
     }
 
     /**

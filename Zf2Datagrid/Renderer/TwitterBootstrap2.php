@@ -19,11 +19,44 @@ class TwitterBootstrap2 extends Renderer
     protected $isFluid = true;
 
     /**
+     * @var array
+     */
+    protected $classes = [];
+
+    /**
      * @param bool $isFluid
+     *
+     * @return $this
      */
     public function setIsFluid($isFluid)
     {
         $this->isFluid = (bool) $isFluid;
+
+        return $this;
+    }
+
+    /**
+     * @param array $classes
+     *
+     * @return $this
+     */
+    public function setClasses(array $classes = [])
+    {
+        $this->classes = $classes;
+
+        return $this;
+    }
+
+    /**
+     * @param $classe
+     *
+     * @return $this
+     */
+    public function addClass($classe)
+    {
+        $this->classes[] = $classe;
+
+        return $this;
     }
 
     /**
@@ -57,7 +90,7 @@ class TwitterBootstrap2 extends Renderer
      */
     protected function getTable()
     {
-        $table = '<table class="table table-condensed">';
+        $table = sprintf('<table class="table %s">', implode(' ', $this->classes));
         $table .= $this->getHeader();
         $table .= $this->getBody();
         $table .= '</table>';
