@@ -250,6 +250,8 @@ abstract class Renderer implements RendererInterface
         } elseif ($column instanceof Column\Select) {
             // And this one is used to build the query
             $value = $row->{'get' . ucfirst($column->getKey())}();
+        } elseif ($column instanceof Column\Index) {
+            $value = $row[$column->getKey()];
         } else {
             $value = $column->getKey();
         }
