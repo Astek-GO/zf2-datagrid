@@ -40,8 +40,9 @@ class PhpArrayDatasource extends Datasource
     {
         $data              = $this->getData();
         $this->resultCount = count($data);
+        $data              = array_slice($data, $this->first, $this->max);
 
-        // TODO : order/pagination
+        // TODO : order
 
         return $data;
     }

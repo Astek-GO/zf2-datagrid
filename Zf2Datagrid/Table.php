@@ -71,6 +71,11 @@ class Table
     protected $storeStateInSession = false;
 
     /**
+     * @var bool
+     */
+    protected $usePagination = true;
+
+    /**
      * @param ServiceLocatorInterface $serviceLocator
      */
     public function __construct(ServiceLocatorInterface $serviceLocator)
@@ -298,6 +303,30 @@ class Table
     }
 
     /**
+     * Indique si on utilise la pagination
+     *
+     * @param $usePagination
+     *
+     * @return $this
+     */
+    public function setUsePagination($usePagination)
+    {
+        $this->usePagination = (bool) $usePagination;
+
+        return $this;
+    }
+
+    /**
+     * Renvoi true si on utilise la pagination
+     *
+     * @return mixed
+     */
+    public function usePagination()
+    {
+        return $this->usePagination;
+    }
+
+    /**
      * Appelle le datasource puis passe les données au renderer et renvoi le résultat
      *
      * @return mixed
@@ -313,14 +342,18 @@ class Table
 
             $this->datasource->setColumns($this->getColumns());
             $this->datasource->setSortConditions($sortConditions);
-            $this->datasource->setFirstResult($pagination['first']);
-            $this->datasource->setMaxResult($pagination['max']);
+
+            if ($this->usePagination()) {
+                $this->datasource->setFirstResult($pagination['first']);
+                $this->datasource->setMaxResult($pagination['max']);
+            }
 
             $this->data = $this->datasource->execute();
         }
 
         $renderer = $this->getRenderer();
 
+        $renderer->setHasPagination($this->usePagination());
         $renderer->setName($this->getName());
         $renderer->setEmptyMessage($this->getEmptyMessage());
         $renderer->setColumns($this->getColumns());
