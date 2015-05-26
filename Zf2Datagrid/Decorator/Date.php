@@ -20,7 +20,7 @@ class Date implements Decorator
     /**
      * @param string $format
      */
-    public function __construct($format)
+    public function __construct($format = 'd/m/Y')
     {
         $this->format = $format;
     }
