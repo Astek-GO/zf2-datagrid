@@ -29,20 +29,13 @@ class CsvRenderer extends Renderer
     protected $separator;
 
     /**
-     * @var string|null
-     */
-    protected $enclosure;
-
-    /**
      * @param string $separator
-     * @param null   $enclosure
      */
-    public function __construct($separator = null, $enclosure = null)
+    public function __construct($separator = null)
     {
         $this->separator          = $separator;
         $this->filepath           = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid(uniqid()) . '.csv';
         $this->file               = fopen($this->filepath, 'w+b');
-        $this->enclosure          = $enclosure;
     }
 
     /**

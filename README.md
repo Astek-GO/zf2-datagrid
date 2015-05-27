@@ -13,6 +13,15 @@ Permet de créer des datagrid facilement avec Zf2 et Doctrine2.
 
 Bien sûr vous pouvez étendre vous même chacune des fonctionnalités.
 
+# Dépendances
+
+* Zend Framework 2
+* Doctrine 2
+
+## Optionnelles
+
+* PHPOffice/PHPExcel pour l'export Excel
+
 # Installation
 
 ## Via composer

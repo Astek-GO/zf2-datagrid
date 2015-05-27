@@ -353,6 +353,10 @@ class Table
 
         $renderer = $this->getRenderer();
 
+        if ($renderer instanceof ServiceLocatorAwareInterface) {
+            $renderer->setServiceLocator($this->getServiceLocator());
+        }
+
         $renderer->setHasPagination($this->usePagination());
         $renderer->setName($this->getName());
         $renderer->setEmptyMessage($this->getEmptyMessage());

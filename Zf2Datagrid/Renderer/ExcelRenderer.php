@@ -29,7 +29,7 @@ class ExcelRenderer extends Renderer
     /**
      * @var int
      */
-    protected $firstLine = 1;
+    protected $currentLine = 1;
 
     public function __construct(Workbook $workbook)
     {
@@ -63,15 +63,34 @@ class ExcelRenderer extends Renderer
     /**
      * @return mixed
      */
+    public function getHeader()
+    {
+        $sheet       = $this->workbook->getActiveSheet();
+        $startColumn = $this->firstColumn;
+        $startLine   = $this->currentLine;
+
+        foreach ($this->columns as $column) {
+            $cell = $startColumn . $startLine;
+
+            $sheet->setCellValue($cell, $column->getTitle());
+            $this->workbook->getActiveSheet()->getStyle($cell)->applyFromArray($this->getDefaultHeaderStyle());
+            $startColumn++;
+        }
+
+        $this->currentLine++;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getBody()
     {
         $sheet       = $this->workbook->getActiveSheet();
         $startColumn = 'A';
-        $startLine   = 2;
 
         foreach ($this->data as $row) {
             foreach ($this->columns as $column) {
-                $cell  = $startColumn . $startLine;
+                $cell  = $startColumn . $this->currentLine;
                 $value = $this->getValueForRow($column, $row);
 
                 $sheet->setCellValue($cell, $value);
@@ -83,28 +102,10 @@ class ExcelRenderer extends Renderer
                 $startColumn++;
             }
 
-            $this->workbook->getActiveSheet()->getRowDimension($startLine)->setRowHeight(-1);
+            $this->workbook->getActiveSheet()->getRowDimension($this->currentLine)->setRowHeight(-1);
 
             $startColumn = 'A';
-            $startLine++;
-        }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getHeader()
-    {
-        $sheet       = $this->workbook->getActiveSheet();
-        $startColumn = 'A';
-        $startLine   = 1;
-
-        foreach ($this->columns as $column) {
-            $cell = $startColumn . $startLine;
-
-            $sheet->setCellValue($cell, $column->getTitle());
-            $this->workbook->getActiveSheet()->getStyle($cell)->applyFromArray($this->getDefaultHeaderStyle());
-            $startColumn++;
+            $this->currentLine++;
         }
     }
 
