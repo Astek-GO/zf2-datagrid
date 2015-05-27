@@ -5,7 +5,7 @@ Permet de créer des datagrid facilement avec Zf2 et Doctrine2.
 # Fonctionnalités
 
 * Datasources : Doctrine2 (QueryBuilder), PhpArray (WIP)
-* Renderer : TwitterBootstrap2, Excel
+* Renderer : TwitterBootstrap2, Excel, Csv
 * Decorator > Renderer : Form
 * Column : Select/Property/Index
 * Decorator > Column : Checkbox/Closure/Date/Icon/Link/NoValue/Route
