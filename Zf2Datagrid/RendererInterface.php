@@ -103,6 +103,18 @@ interface RendererInterface
     public function getLastPageNumber();
 
     /**
+     * @return boolean
+     */
+    public function hasPagination();
+
+    /**
+     * @param boolean $hasPagination
+     *
+     * @return $this
+     */
+    public function setHasPagination($hasPagination);
+
+    /**
      * @return mixed
      */
     public function output();

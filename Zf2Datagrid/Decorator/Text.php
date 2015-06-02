@@ -6,26 +6,26 @@ use Zf2Datagrid\Decorator;
 use Zf2Datagrid\HtmlAttributes;
 
 /**
- * Class Tag
+ * Class Text
  *
  * @package Zf2Datagrid\Decorator
  */
-class Tag implements Decorator
+class Text implements Decorator
 {
     use HtmlAttributes;
 
     /**
      * @var string
      */
-    protected $htmlTag;
+    protected $name;
 
     /**
-     * @param string $htmlTag
-     * @param array  $attributes
+     * @param       $name
+     * @param array $attributes
      */
-    public function __construct($htmlTag, array $attributes = [])
+    public function __construct($name, array $attributes = [])
     {
-        $this->htmlTag    = $htmlTag;
+        $this->name       = $name;
         $this->attributes = $attributes;
     }
 
@@ -36,13 +36,12 @@ class Tag implements Decorator
      */
     public function render($data)
     {
-        $template = '<%s %s>%s</%s>';
+        $html = '<input type="text" name="%s" value="%s" %s>';
 
-        return vsprintf($template, [
-            $this->htmlTag,
-            $this->getAttributes(),
+        return vsprintf($html, [
+            $this->name,
             $data,
-            $this->htmlTag,
+            $this->getAttributes(),
         ]);
     }
 }

@@ -257,6 +257,8 @@ abstract class Renderer implements RendererInterface
         }
 
         foreach ($column->getDecorators() as $decorator) {
+            $decorator = clone $decorator;
+
             if ($decorator instanceof RowAwareInterface) {
                 $decorator->setRow($row);
             }

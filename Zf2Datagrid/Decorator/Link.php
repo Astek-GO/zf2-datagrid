@@ -3,6 +3,7 @@
 namespace Zf2Datagrid\Decorator;
 
 use Zf2Datagrid\Decorator;
+use Zf2Datagrid\HtmlAttributes;
 
 /**
  * Class Link
@@ -11,10 +12,7 @@ use Zf2Datagrid\Decorator;
  */
 class Link implements Decorator
 {
-    /**
-     * @var array
-     */
-    protected $attributes;
+    use HtmlAttributes;
 
     /**
      * @param array $attributes
@@ -37,20 +35,5 @@ class Link implements Decorator
             $this->getAttributes(),
             $data,
         ]);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getAttributes()
-    {
-        $attribute  = '%s="%s"';
-        $attributes = [];
-
-        foreach ($this->attributes as $name => $value) {
-            $attributes[] = vsprintf($attribute, [$name, $value]);
-        }
-
-        return implode(' ', $attributes);
     }
 }

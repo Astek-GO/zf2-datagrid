@@ -317,4 +317,23 @@ class Form implements RendererInterface
     {
         return $this->getServiceLocator()->get(PhpRenderer::class);
     }
-}
+
+    /**
+     * @return boolean
+     */
+    public function hasPagination()
+    {
+        return $this->renderer->hasPagination();
+    }
+
+    /**
+     * @param boolean $hasPagination
+     *
+     * @return $this
+     */
+    public function setHasPagination($hasPagination)
+    {
+        $this->renderer->setHasPagination($hasPagination);
+
+        return $this;
+}}
