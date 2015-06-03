@@ -46,6 +46,11 @@ class Column implements ServiceLocatorAwareInterface
     protected $defaultOrder = null;
 
     /**
+     * @var array
+     */
+    protected $options = [];
+
+    /**
      * @param string $key
      */
     public function __construct($key)
@@ -203,5 +208,25 @@ class Column implements ServiceLocatorAwareInterface
     public function getDecorators()
     {
         return $this->decorators;
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return $this
+     */
+    public function setOptions(array $options = [])
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 }

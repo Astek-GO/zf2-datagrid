@@ -4,6 +4,7 @@ namespace Zf2Datagrid\Renderer;
 
 use Zf2Datagrid\Column;
 use Zf2Datagrid\Decorator;
+use Zf2Datagrid\HtmlAttributes;
 use Zf2Datagrid\Renderer;
 
 /**
@@ -17,11 +18,6 @@ class TwitterBootstrap2 extends Renderer
      * @var bool
      */
     protected $isFluid = true;
-
-    /**
-     * @var array
-     */
-    protected $classes = [];
 
     /**
      * @param bool $isFluid
@@ -160,7 +156,8 @@ class TwitterBootstrap2 extends Renderer
                 ]);
             }
 
-            $header .= vsprintf('<th>%s%s</th>', [
+            $header .= vsprintf('<th %s>%s%s</th>', [
+                $this->getColumnAttributes($column),
                 $links,
                 $column->getTitle()
             ]);
@@ -281,5 +278,29 @@ class TwitterBootstrap2 extends Renderer
             ($pageSize == $this->getPageSize() ? '#' : $this->getUrlWithThisParams(['parPage' => $pageSize])),
             $pageSize,
         ]);
+    }
+
+    /**
+     * @param Column $column
+     *
+     * @return string
+     */
+    protected function getColumnAttributes(Column $column)
+    {
+        $classes = null;
+        $options = $column->getOptions();
+
+        if (isset($options['attributes']) && is_array($options['attributes'])) {
+            $attribute  = '%s="%s"';
+            $attributes = [];
+
+            foreach ($options['attributes'] as $name => $value) {
+                $attributes[] = vsprintf($attribute, [$name, $value]);
+            }
+
+            return implode(' ', $attributes);
+        }
+
+        return '';
     }
 }
