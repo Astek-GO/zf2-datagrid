@@ -255,13 +255,31 @@ class TwitterBootstrap2 extends Renderer
         $list      = '';
 
         foreach ($this->pageSizes as $pageSize) {
-            $list .= vsprintf('<li%s><a href="%s">%s</a></li>', [
-                ($pageSize == $this->getPageSize() ? ' class="active"' : ''),
-                ($pageSize == $this->getPageSize() ? '#' : $this->getUrlWithThisParams(['parPage' => $pageSize])),
-                $pageSize,
-            ]);
+            if ($this->totalCount < $pageSize) {
+                $pageSize = $this->totalCount;
+
+                $list .= $this->generatePageSizeLink($pageSize);
+
+                break;
+            }
+
+            $list .= $this->generatePageSizeLink($pageSize);
         }
 
         return sprintf($container, $list);
+    }
+
+    /**
+     * @param int $pageSize
+     *
+     * @return string
+     */
+    protected function generatePageSizeLink($pageSize)
+    {
+        return vsprintf('<li%s><a href="%s">%s</a></li>', [
+            ($pageSize == $this->getPageSize() ? ' class="active"' : ''),
+            ($pageSize == $this->getPageSize() ? '#' : $this->getUrlWithThisParams(['parPage' => $pageSize])),
+            $pageSize,
+        ]);
     }
 }
