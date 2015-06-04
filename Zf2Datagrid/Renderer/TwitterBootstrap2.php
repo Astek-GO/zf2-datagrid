@@ -103,9 +103,15 @@ class TwitterBootstrap2 extends Renderer
         $sortConditions = [];
 
         foreach ($this->columns as $column) {
-            if ($column->isSortable() && null != $column->getCurrentOrder()) {
-                $sortConditions[$column->getSortColumn()] = $column->getCurrentOrder();
-            }
+//            if ($this->hasMultiSort()) {
+                if ($column->isSortable() && null != $column->getCurrentOrder()) {
+                    $sortConditions[$column->getSortColumn()] = $column->getCurrentOrder();
+                }
+//            } else {
+//                if ($column->isSortable() && null != $column->getCurrentOrder()) {
+//                    $sortConditions = [$column->getSortColumn() => $column->getCurrentOrder()];
+//                }
+//            }
         }
 
         // TODO : Need refactoring
@@ -118,8 +124,13 @@ class TwitterBootstrap2 extends Renderer
                 $isCurrentA = false;
                 $isCurrentD = false;
 
-                $tempA[$column->getSortColumn()] = 'ASC';
-                $tempD[$column->getSortColumn()] = 'DESC';
+                if (! $this->hasMultiSort()) {
+                    $tempA = [$column->getSortColumn() => 'ASC'];
+                    $tempD = [$column->getSortColumn() => 'DESC'];
+                } else {
+                    $tempA[$column->getSortColumn()] = 'ASC';
+                    $tempD[$column->getSortColumn()] = 'DESC';
+                }
 
                 if ($tempA[$column->getSortColumn()] == $column->getDefaultOrder() || $tempA[$column->getSortColumn()] == $column->getCurrentOrder()) {
                     if ($tempA[$column->getSortColumn()] == $column->getCurrentOrder()) {
