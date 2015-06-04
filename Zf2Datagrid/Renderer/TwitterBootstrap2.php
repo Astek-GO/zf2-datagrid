@@ -4,7 +4,6 @@ namespace Zf2Datagrid\Renderer;
 
 use Zf2Datagrid\Column;
 use Zf2Datagrid\Decorator;
-use Zf2Datagrid\HtmlAttributes;
 use Zf2Datagrid\Renderer;
 
 /**
@@ -18,6 +17,11 @@ class TwitterBootstrap2 extends Renderer
      * @var bool
      */
     protected $isFluid = true;
+
+    /**
+     * @var array
+     */
+    protected $classes = [];
 
     /**
      * @param bool $isFluid
@@ -103,15 +107,9 @@ class TwitterBootstrap2 extends Renderer
         $sortConditions = [];
 
         foreach ($this->columns as $column) {
-//            if ($this->hasMultiSort()) {
-                if ($column->isSortable() && null != $column->getCurrentOrder()) {
-                    $sortConditions[$column->getSortColumn()] = $column->getCurrentOrder();
-                }
-//            } else {
-//                if ($column->isSortable() && null != $column->getCurrentOrder()) {
-//                    $sortConditions = [$column->getSortColumn() => $column->getCurrentOrder()];
-//                }
-//            }
+            if ($column->isSortable() && null != $column->getCurrentOrder()) {
+                $sortConditions[$column->getSortColumn()] = $column->getCurrentOrder();
+            }
         }
 
         // TODO : Need refactoring
@@ -124,13 +122,8 @@ class TwitterBootstrap2 extends Renderer
                 $isCurrentA = false;
                 $isCurrentD = false;
 
-                if (! $this->hasMultiSort()) {
-                    $tempA = [$column->getSortColumn() => 'ASC'];
-                    $tempD = [$column->getSortColumn() => 'DESC'];
-                } else {
-                    $tempA[$column->getSortColumn()] = 'ASC';
-                    $tempD[$column->getSortColumn()] = 'DESC';
-                }
+                $tempA[$column->getSortColumn()] = 'ASC';
+                $tempD[$column->getSortColumn()] = 'DESC';
 
                 if ($tempA[$column->getSortColumn()] == $column->getDefaultOrder() || $tempA[$column->getSortColumn()] == $column->getCurrentOrder()) {
                     if ($tempA[$column->getSortColumn()] == $column->getCurrentOrder()) {
