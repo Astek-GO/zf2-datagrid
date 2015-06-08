@@ -353,7 +353,7 @@ class Form implements RendererInterface
      */
     public function setHasSingleSort($hasSingleSort)
     {
-        $this->renderer->setHasPagination($hasSingleSort);
+        $this->renderer->setHasSingleSort($hasSingleSort);
 
         return $this;
     }
