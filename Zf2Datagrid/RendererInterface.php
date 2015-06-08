@@ -115,6 +115,18 @@ interface RendererInterface
     public function setHasPagination($hasPagination);
 
     /**
+     * @return boolean
+     */
+    public function hasSingleSort();
+
+    /**
+     * @param boolean $hasSingleSort
+     *
+     * @return $this
+     */
+    public function setHasSingleSort($hasSingleSort);
+
+    /**
      * @return mixed
      */
     public function output();

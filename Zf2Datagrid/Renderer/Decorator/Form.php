@@ -336,4 +336,25 @@ class Form implements RendererInterface
         $this->renderer->setHasPagination($hasPagination);
 
         return $this;
-}}
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasSingleSort()
+    {
+        return $this->renderer->hasSingleSort();
+    }
+
+    /**
+     * @param boolean $hasSingleSort
+     *
+     * @return $this
+     */
+    public function setHasSingleSort($hasSingleSort)
+    {
+        $this->renderer->setHasPagination($hasSingleSort);
+
+        return $this;
+    }
+}
