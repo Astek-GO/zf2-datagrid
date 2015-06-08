@@ -117,8 +117,8 @@ class TwitterBootstrap2 extends Renderer
             $links = '';
 
             if ($column->isSortable()) {
-                $tempA      = $sortConditions;
-                $tempD      = $sortConditions;
+                $tempA      = $this->hasSingleSort() ? [] : $sortConditions;
+                $tempD      = $this->hasSingleSort() ? [] : $sortConditions;
                 $isCurrentA = false;
                 $isCurrentD = false;
 

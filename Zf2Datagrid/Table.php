@@ -76,6 +76,11 @@ class Table
     protected $usePagination = true;
 
     /**
+     * @var bool
+     */
+    protected $isForceDefaultOrder = false;
+
+    /**
      * @param ServiceLocatorInterface $serviceLocator
      */
     public function __construct(ServiceLocatorInterface $serviceLocator)
@@ -327,6 +332,26 @@ class Table
     }
 
     /**
+     * @param boolean $isForceDefaultOrder
+     *
+     * @return $this
+     */
+    public function setForceDefaultOrder($isForceDefaultOrder)
+    {
+        $this->isForceDefaultOrder = $isForceDefaultOrder;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isForceDefaultOrder()
+    {
+        return $this->isForceDefaultOrder;
+    }
+
+    /**
      * Appelle le datasource puis passe les données au renderer et renvoi le résultat
      *
      * @return mixed
@@ -485,7 +510,7 @@ class Table
 
         foreach ($this->getColumns() as $column) {
             if ($column->isSortable() && null != $column->getDefaultOrder()) {
-                if (! isset($sortConditions[$column->getSortColumn()])) {
+                if (! $this->isForceDefaultOrder() && empty($sortConditions)) {
                     $sortConditions[$column->getSortColumn()] = $column->getDefaultOrder();
                 }
             }

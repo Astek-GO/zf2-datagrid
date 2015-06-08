@@ -57,6 +57,11 @@ abstract class Renderer implements RendererInterface
     protected $hasPagination = true;
 
     /**
+     * @var bool
+     */
+    protected $hasSingleSort = false;
+
+    /**
      * @param string $name
      *
      * @return $this
@@ -232,6 +237,26 @@ abstract class Renderer implements RendererInterface
     public function setHasPagination($hasPagination)
     {
         $this->hasPagination = $hasPagination;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasSingleSort()
+    {
+        return $this->hasSingleSort;
+    }
+
+    /**
+     * @param boolean $hasSingleSort
+     *
+     * @return $this
+     */
+    public function setHasSingleSort($hasSingleSort)
+    {
+        $this->hasSingleSort = $hasSingleSort;
 
         return $this;
     }
