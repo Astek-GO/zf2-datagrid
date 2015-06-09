@@ -306,7 +306,6 @@ abstract class Renderer implements RendererInterface
      */
     protected function getUrlWithThisParams(array $params = [], $merge = true)
     {
-        $baseUrl       = explode('?', "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]")[0];
         $getParameters = [];
         $parameters    = $merge ? array_merge($_GET, $params) : $params;
 
@@ -314,7 +313,7 @@ abstract class Renderer implements RendererInterface
             $getParameters[] = $paramName . '=' . $paramValue;
         }
 
-        return $baseUrl . '?' . implode('&', $getParameters);
+        return '?' . implode('&', $getParameters);
     }
 
     /**
