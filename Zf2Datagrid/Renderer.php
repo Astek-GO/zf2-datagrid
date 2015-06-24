@@ -262,6 +262,23 @@ abstract class Renderer implements RendererInterface
     }
 
     /**
+     * @param object $decorator
+     * @param mixed  $value
+     *
+     * @return mixed
+     */
+    public function applyDecoratorOnValue($decorator, $value)
+    {
+        if ($decorator instanceof Decorator) {
+            $value = $decorator->render($value);
+        } elseif ($decorator instanceof Closure) {
+            $value = $decorator($value);
+        }
+
+        return $value;
+    }
+
+    /**
      * @param Column $column
      * @param mixed  $row
      *
@@ -288,11 +305,7 @@ abstract class Renderer implements RendererInterface
                 $decorator->setRow($row);
             }
 
-            if ($decorator instanceof Decorator) {
-                $value = $decorator->render($value);
-            } elseif ($decorator instanceof Closure) {
-                $value = $decorator($value);
-            }
+            $value = $this->applyDecoratorOnValue($decorator, $value);
         }
 
         return $value;
