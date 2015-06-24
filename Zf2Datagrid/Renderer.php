@@ -3,6 +3,7 @@
 namespace Zf2Datagrid;
 
 use Closure;
+use Zf2Datagrid\Decorator\Percentage;
 
 /**
  * Class Renderer
@@ -269,7 +270,20 @@ abstract class Renderer implements RendererInterface
      */
     public function applyDecoratorOnValue($decorator, $value)
     {
-        if ($decorator instanceof Decorator) {
+        if ($decorator instanceof Numeric) {
+            $this->workbook->getActiveSheet()
+                ->getStyle($this->currentColumn . $this->currentLine)
+                ->getNumberFormat()
+                ->setFormatCode($decorator->getExcelFormat());
+
+            if ($decorator instanceof Percentage) {
+                # Avec Excel, les colonnes numériques en pourcent sont
+                # automatiquement multipliées par 100 (et oui : pourcent) CQFD
+                $value /= 100;
+            }
+
+            return floatval($value);
+        } elseif ($decorator instanceof Decorator) {
             $value = $decorator->render($value);
         } elseif ($decorator instanceof Closure) {
             $value = $decorator($value);

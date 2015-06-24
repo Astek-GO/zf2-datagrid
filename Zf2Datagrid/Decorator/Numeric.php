@@ -77,4 +77,25 @@ class Numeric implements Decorator
 
         return $data;
     }
+
+    /**
+     * @return string
+     */
+    public function getExcelFormat()
+    {
+        // TODO : évaluer le nombre de # à l'avance pour éviter un décalage
+        // du signe (-)
+
+        return vsprintf('%s%s%s', [
+            str_repeat(
+                vsprintf('%s%s', [
+                    '###',
+                    $this->thousandsSeparator,
+                ]),
+                6
+            ),
+            '##0.00',
+            (null != $this->append ? $this->append : '')
+        ]);
+    }
 }
