@@ -31,6 +31,11 @@ class ExcelRenderer extends Renderer
      */
     protected $currentLine = 1;
 
+    /**
+     * @var string
+     */
+    protected $currentColumn = 'A';
+
     public function __construct(Workbook $workbook)
     {
         $this->workbook = $workbook;
@@ -65,16 +70,16 @@ class ExcelRenderer extends Renderer
      */
     public function getHeader()
     {
-        $sheet       = $this->workbook->getActiveSheet();
-        $startColumn = $this->firstColumn;
-        $startLine   = $this->currentLine;
+        $sheet               = $this->workbook->getActiveSheet();
+        $this->currentColumn = $this->firstColumn;
+        $startLine           = $this->currentLine;
 
         foreach ($this->columns as $column) {
-            $cell = $startColumn . $startLine;
+            $cell = $this->currentColumn . $startLine;
 
             $sheet->setCellValue($cell, $column->getTitle());
             $this->workbook->getActiveSheet()->getStyle($cell)->applyFromArray($this->getDefaultHeaderStyle());
-            $startColumn++;
+            $this->currentColumn++;
         }
 
         $this->currentLine++;
@@ -85,26 +90,26 @@ class ExcelRenderer extends Renderer
      */
     public function getBody()
     {
-        $sheet       = $this->workbook->getActiveSheet();
-        $startColumn = 'A';
+        $sheet               = $this->workbook->getActiveSheet();
+        $this->currentColumn = $this->firstColumn;
 
         foreach ($this->data as $row) {
             foreach ($this->columns as $column) {
-                $cell  = $startColumn . $this->currentLine;
+                $cell  = $this->currentColumn . $this->currentLine;
                 $value = $this->getValueForRow($column, $row);
 
                 $sheet->setCellValue($cell, $value);
 
                 $this->workbook->getActiveSheet()->getStyle($cell)->getAlignment()->setWrapText(true);
-                $this->workbook->getActiveSheet()->getColumnDimension($startColumn)->setAutoSize(true);
+                $this->workbook->getActiveSheet()->getColumnDimension($this->currentColumn)->setAutoSize(true);
                 $this->workbook->getActiveSheet()->getStyle($cell)->applyFromArray($this->getDefaultDataStyle());
 
-                $startColumn++;
+                $this->currentColumn++;
             }
 
             $this->workbook->getActiveSheet()->getRowDimension($this->currentLine)->setRowHeight(-1);
 
-            $startColumn = 'A';
+            $this->currentColumn = $this->firstColumn;
             $this->currentLine++;
         }
     }
