@@ -2,6 +2,7 @@
 
 namespace Zf2Datagrid;
 
+use OutOfBoundsException;
 use Zend\Http\Request;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -373,7 +374,16 @@ class Table
                 $this->datasource->setMaxResult($pagination['max']);
             }
 
-            $this->data = $this->datasource->execute();
+            try {
+                $this->data = $this->datasource->execute();
+            } catch (OutOfBoundsException $oob) {
+                $pagination['page'] = 1;
+
+                $this->setParameter('page', $pagination['page'], $this->getPageSessionContainerName());
+                $this->datasource->setFirstResult(0);
+
+                $this->data = $this->datasource->execute();
+            }
         }
 
         $renderer = $this->getRenderer();

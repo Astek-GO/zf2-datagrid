@@ -2,12 +2,13 @@
 
 namespace Zf2Datagrid\Datasource;
 
-use Zf2Datagrid\Column\Select;
-use Zf2Datagrid\Datasource;
-use Zf2Datagrid\Exception\Datasource\InvalidQueryBuilderArgumentException;
 use Doctrine\ORM\Query\Expr\OrderBy;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use OutOfBoundsException;
+use Zf2Datagrid\Column\Select;
+use Zf2Datagrid\Datasource;
+use Zf2Datagrid\Exception\Datasource\InvalidQueryBuilderArgumentException;
 
 /**
  * Class DoctrineObjectDatasource
@@ -45,11 +46,12 @@ class DoctrineObjectDatasource extends Datasource
 
     /**
      * @return array
+     * @throws OutOfBoundsException
      */
     public function execute()
     {
         $queryBuilder = $this->getData();
-        $aliases = [];
+        $aliases      = [];
 
         $queryBuilder->resetDQLParts(['select', 'orderBy', 'having']);
 
@@ -76,12 +78,14 @@ class DoctrineObjectDatasource extends Datasource
             $queryBuilder->setMaxResults($this->max);
         }
 
-        $paginator = new Paginator($queryBuilder);
-
+        $paginator         = new Paginator($queryBuilder);
         $this->resultCount = $paginator->count();
+        $result            = $queryBuilder->getQuery()->getResult();
 
-        return $queryBuilder
-            ->getQuery()
-            ->getResult();
+        if ($this->resultCount > 0 && empty($result)) {
+            throw new OutOfBoundsException;
+        }
+
+        return $result;
     }
 }

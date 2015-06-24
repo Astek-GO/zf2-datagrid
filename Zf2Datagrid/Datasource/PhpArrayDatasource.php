@@ -4,6 +4,7 @@ namespace Zf2Datagrid\Datasource;
 
 use ArrayAccess;
 use InvalidArgumentException;
+use Zend\Tag\Exception\OutOfBoundsException;
 use Zf2Datagrid\Datasource;
 
 class PhpArrayDatasource extends Datasource
@@ -35,12 +36,17 @@ class PhpArrayDatasource extends Datasource
 
     /**
      * @return mixed
+     * @throws OutOfBoundsException
      */
     public function execute()
     {
         $data              = $this->getData();
         $this->resultCount = count($data);
         $data              = array_slice($data, $this->first, $this->max);
+
+        if ($this->resultCount > 0 && empty($data)) {
+            throw new OutOfBoundsException;
+        }
 
         // TODO : order
 

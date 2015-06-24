@@ -2,6 +2,7 @@
 
 namespace Zf2Datagrid;
 
+use OutOfBoundsException;
 use Zend\Paginator\Adapter\AdapterInterface;
 
 /**
@@ -168,6 +169,7 @@ abstract class Datasource
 
     /**
      * @return mixed
+     * @throws OutOfBoundsException
      */
     abstract public function execute();
 }
