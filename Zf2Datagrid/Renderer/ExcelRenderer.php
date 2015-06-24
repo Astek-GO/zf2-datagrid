@@ -11,6 +11,8 @@ use PHPExcel\Style_Border;
 use PHPExcel\Style_Color;
 use PHPExcel\Style_Fill;
 use PHPExcel\Workbook;
+use Zf2Datagrid\Decorator\Numeric;
+use Zf2Datagrid\Decorator\Percentage;
 use Zf2Datagrid\Renderer;
 use Zf2Datagrid\Renderer\PHPExcel\ForceCellAsString;
 
@@ -136,6 +138,34 @@ class ExcelRenderer extends Renderer
     public function getPageSizes()
     {
         throw new BadMethodCallException('You should implement this method if you want to use it ;).');
+    }
+
+    /**
+     * Surcharge pour les cas avec Excel
+     *
+     * @param object $decorator
+     * @param mixed  $value
+     *
+     * @return float|mixed
+     */
+    public function applyDecoratorOnValue($decorator, $value)
+    {
+        if ($decorator instanceof Numeric) {
+            if ($decorator instanceof Percentage) {
+                # Avec Excel, les colonnes numériques en pourcent sont
+                # automatiquement multipliées par 100 (et oui : pourcent) CQFD
+                $value = floatval($value) / 100;
+            }
+
+            $this->workbook->getActiveSheet()
+                ->getStyle($this->currentColumn . $this->currentLine)
+                ->getNumberFormat()
+                ->setFormatCode($decorator->getExcelFormat());
+
+            return floatval($value);
+        }
+
+        return parent::applyDecoratorOnValue($decorator, $value);
     }
 
     /**

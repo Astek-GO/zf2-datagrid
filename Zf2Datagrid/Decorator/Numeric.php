@@ -83,8 +83,7 @@ class Numeric implements Decorator
      */
     public function getExcelFormat()
     {
-        // TODO : évaluer le nombre de # à l'avance pour éviter un décalage
-        // du signe (-)
+        // TODO : évaluer le nombre de # à l'avance pour éviter un décalage du signe (-)
 
         return vsprintf('%s%s%s', [
             str_repeat(
