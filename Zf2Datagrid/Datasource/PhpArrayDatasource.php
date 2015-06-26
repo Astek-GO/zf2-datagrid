@@ -48,7 +48,33 @@ class PhpArrayDatasource extends Datasource
             throw new OutOfBoundsException;
         }
 
-        // TODO : order
+        $data = $this->orderData($data);
+
+        return $data;
+    }
+
+    protected function orderData(array $data = [])
+    {
+        if (! empty($this->getSortConditions())) {
+            $sort = [];
+
+            foreach ($this->getData() as $k => $v) {
+                foreach ($this->getSortConditions() as $column => $direction) {
+                    $sort[$column][$k] = $v[$column];
+                }
+            }
+
+            $sortArgs = [];
+
+            foreach ($this->getSortConditions() as $column => $direction) {
+                $sortArgs[] = $sort[$column];
+                $sortArgs[] = ('ASC' == $direction ? SORT_ASC : SORT_DESC);
+            }
+
+            $sortArgs[] = & $data;
+
+            call_user_func_array('array_multisort', $sortArgs);
+        }
 
         return $data;
     }
