@@ -53,6 +53,11 @@ class PhpArrayDatasource extends Datasource
         return $data;
     }
 
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
     protected function orderData(array $data = [])
     {
         if (! empty($this->getSortConditions())) {
