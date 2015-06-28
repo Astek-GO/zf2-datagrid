@@ -4,19 +4,19 @@ Permet de créer des datagrid facilement avec Zf2 et Doctrine2.
 
 # Fonctionnalités
 
-* Datasources : Doctrine2 (QueryBuilder), PhpArray (WIP)
+* Datasources : Doctrine2 (QueryBuilder), PhpArray
 * Renderer : TwitterBootstrap2, Excel, Csv
 * Decorator > Renderer : Form
 * Column : Select/Property/Index
-* Decorator > Column : Checkbox/Closure/Date/Icon/Link/NoValue/Route
+* Decorator > Column : Checkbox/Closure/Date/Icon/Integer/Link/NoValue/Numeric/Percentage/Route/Tag/Text/Translate
 * Pagination : pagination/order by
 
 Bien sûr vous pouvez étendre vous même chacune des fonctionnalités.
 
 # Dépendances
 
-* Zend Framework 2
-* Doctrine 2
+* Zend Framework 2 (Form)
+* Doctrine 2 (Doctrine2Datasource)
 
 ## Optionnelles
 
@@ -41,9 +41,9 @@ Pour apprendre à utiliser cette librairie vous pouvez consulter la [documentati
 # TODO
 
 * Documentation / Exemples WIP
-* PhpArray > pagination/order
 * Gérer les attributs HTML pour les Column (th/td)
 * D'autres renderer out of the box (TwitterBootstrap3, Foundation...)
 * D'autres datasource out of the box (Zend\Db ? autres...)
+
 ---
 Après ça : [Introduction](/docs/01. Introduction.md)
