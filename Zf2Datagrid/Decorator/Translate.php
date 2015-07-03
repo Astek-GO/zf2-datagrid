@@ -3,10 +3,10 @@
 namespace Zf2Datagrid\Decorator;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zf2Datagrid\Decorator;
 use Zf2Datagrid\RowAware;
 use Zf2Datagrid\RowAwareInterface;
-use Zf2Datagrid\ServiceLocatorAware;
 use Zf2Datagrid\Translator;
 
 /**
@@ -16,7 +16,7 @@ use Zf2Datagrid\Translator;
  */
 class Translate implements Decorator, ServiceLocatorAwareInterface, RowAwareInterface
 {
-    use ServiceLocatorAware, RowAware, Translator;
+    use ServiceLocatorAwareTrait, RowAware, Translator;
 
     /**
      * @param $data

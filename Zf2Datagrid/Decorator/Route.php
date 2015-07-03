@@ -2,9 +2,9 @@
 
 namespace Zf2Datagrid\Decorator;
 
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zf2Datagrid\RowAware;
 use Zf2Datagrid\RowAwareInterface;
-use Zf2Datagrid\ServiceLocatorAware;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
@@ -14,7 +14,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  */
 class Route extends Link implements ServiceLocatorAwareInterface, RowAwareInterface
 {
-    use ServiceLocatorAware, RowAware;
+    use ServiceLocatorAwareTrait, RowAware;
 
     /**
      * @var string

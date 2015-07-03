@@ -4,6 +4,7 @@ namespace Zf2Datagrid;
 
 use Closure;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zf2Datagrid\Exception\Decorator\InvalidArgumentException;
 
 /**
@@ -13,7 +14,7 @@ use Zf2Datagrid\Exception\Decorator\InvalidArgumentException;
  */
 class Column implements ServiceLocatorAwareInterface
 {
-    use ServiceLocatorAware, Translator;
+    use ServiceLocatorAwareTrait, Translator;
 
     /**
      * @var string
