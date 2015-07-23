@@ -32,6 +32,10 @@ class Date implements Decorator
      */
     public function render($data)
     {
+        if (null == $data) {
+            return null;
+	}
+
         if (! $data instanceof DateTime) {
             $data = new DateTime($data);
         }
