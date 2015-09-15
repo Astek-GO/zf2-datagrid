@@ -439,7 +439,12 @@ class Table
     protected function getParameter($name, $default = null, $sessionContainerName = null)
     {
         /** @var Request $request */
-        $request      = $this->getServiceLocator()->get('Request');
+        $request = $this->getServiceLocator()->get('Request');
+
+        if (! method_exists($request, 'getQuery')) {
+            return $default;
+        }
+        
         $requestParam = $request->getQuery($name);
 
         if ($this->isStoreStateInSession() && null != $sessionContainerName) {
