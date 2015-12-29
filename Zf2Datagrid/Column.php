@@ -104,7 +104,7 @@ class Column implements ServiceLocatorAwareInterface
      *
      * @return $this
      */
-    public function setIsSortable($isSortable)
+    public function setSortable($isSortable)
     {
         $this->isSortable = (bool) $isSortable;
 

@@ -27,7 +27,7 @@ class TwitterBootstrap2 extends Renderer
      *
      * @return $this
      */
-    public function setIsFluid($isFluid)
+    public function setFluid($isFluid)
     {
         $this->isFluid = (bool) $isFluid;
 
