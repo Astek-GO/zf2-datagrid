@@ -1,3 +1,5 @@
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f85e7364-7439-4787-ba54-16cfc536c416/mini.png)](https://insight.sensiolabs.com/projects/f85e7364-7439-4787-ba54-16cfc536c416)
+
 # Zf2Datagrid - WIP
 
 Permet de créer des datagrid facilement avec Zf2 et Doctrine2.

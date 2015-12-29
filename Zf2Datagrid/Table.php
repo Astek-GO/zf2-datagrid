@@ -253,7 +253,7 @@ class Table
      */
     public function getName()
     {
-        if (null == $this->name) {
+        if (null === $this->name) {
             return 'zf2-datagrid';
         }
 
@@ -444,13 +444,13 @@ class Table
         if (! method_exists($request, 'getQuery')) {
             return $default;
         }
-        
+
         $requestParam = $request->getQuery($name);
 
-        if ($this->isStoreStateInSession() && null != $sessionContainerName) {
+        if ($this->isStoreStateInSession() && null !== $sessionContainerName) {
             $container = new Container($sessionContainerName);
 
-            if (null == $requestParam && null != $container->{$name}) {
+            if (null === $requestParam && null !== $container->{$name}) {
                 $requestParam = $container->{$name};
 
                 if (isset($_GET[$name]) && '' == $_GET[$name]) {
@@ -475,7 +475,7 @@ class Table
      */
     protected function setParameter($name, $value, $sessionContainerName = null)
     {
-        if ($this->isStoreStateInSession() && null != $sessionContainerName) {
+        if ($this->isStoreStateInSession() && null !== $sessionContainerName) {
             $container = new Container($sessionContainerName);
 
             $container->{$name} = $value;
@@ -516,15 +516,16 @@ class Table
 
         $sortConditions = [];
 
-        $sortBy  = (null == $requestSortBy ? [] : explode(',', $requestSortBy));
-        $sortDir = (null == $requestSortDir ? [] : explode(',', $requestSortDir));
+        $sortBy  = (null === $requestSortBy ? [] : explode(',', $requestSortBy));
+        $sortDir = (null === $requestSortDir ? [] : explode(',', $requestSortDir));
+        $nbItems = count($sortBy);
 
-        for ($i = 0; $i < count($sortBy); $i++) {
+        for ($i = 0; $i < $nbItems; $i++) {
             $sortConditions[$sortBy[$i]] = (isset($sortDir[$i]) ? $sortDir[$i] : 'ASC');
         }
 
         foreach ($this->getColumns() as $column) {
-            if ($column->isSortable() && null != $column->getDefaultOrder()) {
+            if ($column->isSortable() && null !== $column->getDefaultOrder()) {
                 if (! $this->isForceDefaultOrder() && empty($sortConditions)) {
                     $sortConditions[$column->getSortColumn()] = $column->getDefaultOrder();
                 }
@@ -550,8 +551,8 @@ class Table
         $requestPage     = $this->getParameter('page', null, $this->getPageSessionContainerName());
         $requestPageSize = $this->getParameter('parPage', null, $this->getPageSessionContainerName());
 
-        $page     = (null == $requestPage || 0 >= $requestPage ? 1 : (int) $requestPage);
-        $pageSize = (null == $requestPageSize ? 20 : (int) $requestPageSize);
+        $page     = (null === $requestPage || 0 >= $requestPage ? 1 : (int) $requestPage);
+        $pageSize = (null === $requestPageSize ? 20 : (int) $requestPageSize);
 
         $this
             ->setParameter('page', $page, $this->getPageSessionContainerName())

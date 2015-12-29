@@ -218,7 +218,6 @@ class Form implements RendererInterface
         $form->prepare();
         $form->setName(sprintf('form-%s', $this->getName()));
 
-        // TODO : Need refactoring
         $template = '
             %s
                 <div class="form-%s-controls">

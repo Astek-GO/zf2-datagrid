@@ -269,7 +269,7 @@ abstract class Renderer implements RendererInterface
      */
     public function applyDecoratorOnValue($decorator, $value)
     {
-        if ($decorator instanceof Decorator) {
+        if ($decorator instanceof DecoratorInterface) {
             $value = $decorator->render($value);
         } elseif ($decorator instanceof Closure) {
             $value = $decorator($value);

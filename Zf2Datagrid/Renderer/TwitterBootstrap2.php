@@ -3,7 +3,6 @@
 namespace Zf2Datagrid\Renderer;
 
 use Zf2Datagrid\Column;
-use Zf2Datagrid\Decorator;
 use Zf2Datagrid\Renderer;
 
 /**
@@ -107,12 +106,11 @@ class TwitterBootstrap2 extends Renderer
         $sortConditions = [];
 
         foreach ($this->columns as $column) {
-            if ($column->isSortable() && null != $column->getCurrentOrder()) {
+            if ($column->isSortable() && null !== $column->getCurrentOrder()) {
                 $sortConditions[$column->getSortColumn()] = $column->getCurrentOrder();
             }
         }
 
-        // TODO : Need refactoring
         foreach ($this->columns as $column) {
             $links = '';
 
@@ -291,7 +289,6 @@ class TwitterBootstrap2 extends Renderer
      */
     protected function getColumnAttributes(Column $column)
     {
-        $classes = null;
         $options = $column->getOptions();
 
         if (isset($options['attributes']) && is_array($options['attributes'])) {

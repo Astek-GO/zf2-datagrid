@@ -2,14 +2,14 @@
 
 namespace Zf2Datagrid\Decorator;
 
-use Zf2Datagrid\Decorator;
+use Zf2Datagrid\DecoratorInterface;
 
 /**
  * Class Icon
  *
  * @package Zf2Datagrid\Decorator
  */
-class Icon implements Decorator
+class Icon implements DecoratorInterface
 {
     /**
      * @var string

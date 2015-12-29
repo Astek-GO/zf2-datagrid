@@ -2,14 +2,14 @@
 
 namespace Zf2Datagrid\Decorator;
 
-use Zf2Datagrid\Decorator;
+use Zf2Datagrid\DecoratorInterface;
 
 /**
  * Class Numeric
  *
  * @package Zf2Datagrid\Decorator
  */
-class Numeric implements Decorator
+class Numeric implements DecoratorInterface
 {
     /**
      * @var int
@@ -83,8 +83,6 @@ class Numeric implements Decorator
      */
     public function getExcelFormat()
     {
-        // TODO : évaluer le nombre de # à l'avance pour éviter un décalage du signe (-)
-
         return vsprintf('%s%s%s', [
             str_repeat(
                 vsprintf('%s%s', [
@@ -94,7 +92,7 @@ class Numeric implements Decorator
                 6
             ),
             '##0.00',
-            (null != $this->append ? $this->append : '')
+            (null !== $this->append ? $this->append : '')
         ]);
     }
 }

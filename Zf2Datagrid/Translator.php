@@ -2,8 +2,6 @@
 
 namespace Zf2Datagrid;
 
-use Zend\I18n\Translator\Translator as ZfTranslator;
-
 /**
  * Class Translator
  *
@@ -12,12 +10,12 @@ use Zend\I18n\Translator\Translator as ZfTranslator;
 trait Translator
 {
     /**
-     * @var ZfTranslator
+     * @var \Zend\I18n\Translator\Translator
      */
     protected $translator;
 
     /**
-     * @return ZfTranslator
+     * @return \Zend\I18n\Translator\Translator
      */
     protected function getTranslator()
     {

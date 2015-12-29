@@ -2,14 +2,14 @@
 
 namespace Zf2Datagrid\Decorator;
 
-use Zf2Datagrid\Decorator;
+use Zf2Datagrid\DecoratorInterface;
 
 /**
  * Class Checkbox
  *
  * @package Zf2Datagrid\Decorator
  */
-class Checkbox implements Decorator
+class Checkbox implements DecoratorInterface
 {
     /**
      * @var

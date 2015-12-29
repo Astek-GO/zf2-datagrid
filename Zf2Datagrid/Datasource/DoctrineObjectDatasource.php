@@ -70,11 +70,11 @@ class DoctrineObjectDatasource extends Datasource
             $queryBuilder->add('orderBy', new OrderBy($column, $sortDirection), true);
         }
 
-        if (null != $this->first) {
+        if (null !== $this->first) {
             $queryBuilder->setFirstResult($this->first);
         }
 
-        if (null != $this->max) {
+        if (null !== $this->max) {
             $queryBuilder->setMaxResults($this->max);
         }
 

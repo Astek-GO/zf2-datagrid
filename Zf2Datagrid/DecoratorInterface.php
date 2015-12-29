@@ -3,11 +3,11 @@
 namespace Zf2Datagrid;
 
 /**
- * Interface Decorator
+ * Interface DecoratorInterface
  *
  * @package Zf2Datagrid
  */
-interface Decorator
+interface DecoratorInterface
 {
     /**
      * @param $data

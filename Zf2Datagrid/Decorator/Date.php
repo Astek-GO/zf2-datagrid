@@ -2,7 +2,7 @@
 
 namespace Zf2Datagrid\Decorator;
 
-use Zf2Datagrid\Decorator;
+use Zf2Datagrid\DecoratorInterface;
 use DateTime;
 
 /**
@@ -10,7 +10,7 @@ use DateTime;
  *
  * @package Zf2Datagrid\Decorator
  */
-class Date implements Decorator
+class Date implements DecoratorInterface
 {
     /**
      * @var string
@@ -32,7 +32,7 @@ class Date implements Decorator
      */
     public function render($data)
     {
-        if (null == $data) {
+        if (null === $data) {
             return null;
 	}
 

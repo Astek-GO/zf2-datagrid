@@ -2,7 +2,7 @@
 
 namespace Zf2Datagrid\Decorator;
 
-use Zf2Datagrid\Decorator;
+use Zf2Datagrid\DecoratorInterface;
 use Zf2Datagrid\HtmlAttributes;
 
 /**
@@ -10,7 +10,7 @@ use Zf2Datagrid\HtmlAttributes;
  *
  * @package Zf2Datagrid\Decorator
  */
-class Link implements Decorator
+class Link implements DecoratorInterface
 {
     use HtmlAttributes;
 

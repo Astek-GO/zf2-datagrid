@@ -3,14 +3,14 @@
 namespace Zf2Datagrid\Decorator;
 
 use Closure as AnonymousFunction;
-use Zf2Datagrid\Decorator;
+use Zf2Datagrid\DecoratorInterface;
 
 /**
  * Class Closure
  *
  * @package Zf2Datagrid\Decorator
  */
-class Closure implements Decorator
+class Closure implements DecoratorInterface
 {
     /**
      * @var AnonymousFunction

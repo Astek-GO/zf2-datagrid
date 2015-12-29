@@ -27,7 +27,7 @@ class Column implements ServiceLocatorAwareInterface
     protected $title;
 
     /**
-     * @var Decorator[]
+     * @var DecoratorInterface[]
      */
     protected $decorators;
 
@@ -168,14 +168,14 @@ class Column implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @param Decorator|Closure $decorator
+     * @param DecoratorInterface|Closure $decorator
      *
      * @return $this
      * @throws InvalidArgumentException
      */
     public function addDecorator($decorator)
     {
-        if (! $decorator instanceof Decorator) {
+        if (! $decorator instanceof DecoratorInterface) {
             if (! $decorator instanceof Closure) {
                 throw new InvalidArgumentException();
             }
@@ -204,7 +204,7 @@ class Column implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @return Decorator[]
+     * @return DecoratorInterface[]
      */
     public function getDecorators()
     {
