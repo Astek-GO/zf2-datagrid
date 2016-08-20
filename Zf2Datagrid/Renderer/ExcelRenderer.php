@@ -11,7 +11,7 @@ use PHPExcel\Style_Border;
 use PHPExcel\Style_Color;
 use PHPExcel\Style_Fill;
 use PHPExcel\Workbook;
-use Zf2Datagrid\Decorator\Numeric;
+use Zf2Datagrid\Decorator\Number;
 use Zf2Datagrid\Decorator\Percentage;
 use Zf2Datagrid\Renderer;
 use Zf2Datagrid\Renderer\PHPExcel\ForceCellAsString;
@@ -150,7 +150,7 @@ class ExcelRenderer extends Renderer
      */
     public function applyDecoratorOnValue($decorator, $value)
     {
-        if ($decorator instanceof Numeric) {
+        if ($decorator instanceof Number) {
             if ($decorator instanceof Percentage) {
                 # Avec Excel, les colonnes numériques en pourcent sont
                 # automatiquement multipliées par 100 (et oui : pourcent) CQFD

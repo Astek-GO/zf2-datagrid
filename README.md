@@ -1,6 +1,11 @@
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f85e7364-7439-4787-ba54-16cfc536c416/mini.png)](https://insight.sensiolabs.com/projects/f85e7364-7439-4787-ba54-16cfc536c416)
+# Zf2Datagrid
 
-# Zf2Datagrid - WIP
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f85e7364-7439-4787-ba54-16cfc536c416/mini.png)](https://insight.sensiolabs.com/projects/f85e7364-7439-4787-ba54-16cfc536c416) 
+[![Latest Stable Version](https://poser.pugx.org/astek-go/zf2-datagrid/v/stable)](https://packagist.org/packages/astek-go/zf2-datagrid)
+[![Total Downloads](https://poser.pugx.org/astek-go/zf2-datagrid/downloads)](https://packagist.org/packages/astek-go/zf2-datagrid)
+[![Latest Unstable Version](https://poser.pugx.org/astek-go/zf2-datagrid/v/unstable)](https://packagist.org/packages/astek-go/zf2-datagrid)
+[![License](https://poser.pugx.org/astek-go/zf2-datagrid/license)](https://packagist.org/packages/astek-go/zf2-datagrid)
+
 
 Permet de créer des datagrid facilement avec Zf2 et Doctrine2.
 
@@ -10,7 +15,7 @@ Permet de créer des datagrid facilement avec Zf2 et Doctrine2.
 * Renderer : TwitterBootstrap2, Excel, Csv
 * Decorator > Renderer : Form
 * Column : Select/Property/Index
-* Decorator > Column : Checkbox/Closure/Date/Icon/Integer/Link/NoValue/Numeric/Percentage/Route/Tag/Text/Translate
+* Decorator > Column : Checkbox/Closure/Date/Icon/Integer/Link/NoValue/Number/Percentage/Route/Tag/Text/Translate
 * Pagination : pagination/order by
 
 Bien sûr vous pouvez étendre vous même chacune des fonctionnalités.

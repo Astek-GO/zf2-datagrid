@@ -10,7 +10,7 @@ use Zf2Datagrid\Decorator;
  *
  * @package Zf2Datagrid\Decorator
  */
-class Percentage extends Numeric
+class Percentage extends Number
 {
     /**
      * @param int    $precision

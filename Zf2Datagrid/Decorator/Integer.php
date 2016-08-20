@@ -10,7 +10,7 @@ use Zf2Datagrid\Decorator;
  *
  * @package Zf2Datagrid\Decorator
  */
-class Integer extends Numeric
+class Integer extends Number
 {
     public function __construct()
     {

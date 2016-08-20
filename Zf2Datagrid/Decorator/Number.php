@@ -5,11 +5,11 @@ namespace Zf2Datagrid\Decorator;
 use Zf2Datagrid\DecoratorInterface;
 
 /**
- * Class Numeric
+ * Class Number
  *
  * @package Zf2Datagrid\Decorator
  */
-class Numeric implements DecoratorInterface
+class Number implements DecoratorInterface
 {
     /**
      * @var int
